@@ -34,7 +34,8 @@ public class UserActivityLogger {
     public UserActivityLogger(String username) {
         this.setUsername(username);
         try{
-            FileWriter fileWriter = new FileWriter(String.format("log/%s.log", username), true);
+            FileWriter fileWriter = new FileWriter(String.format("client/log/%s.log", username), true);
+            //FileWriter fileWriter = new FileWriter(String.format("%s.log", username), true);
              printWriter = new PrintWriter(new BufferedWriter(fileWriter),true);
         } catch (IOException ex) {
             LOGGER.error(ex.getMessage());
@@ -54,7 +55,9 @@ public class UserActivityLogger {
      *
      */
     public void release() {
-        this.printWriter.close();
+        if(this.printWriter != null) {
+            this.printWriter.close();
+        }
     }
 
     /**

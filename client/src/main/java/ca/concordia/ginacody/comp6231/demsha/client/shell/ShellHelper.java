@@ -41,7 +41,7 @@ public class ShellHelper {
     /**
      *
      */
-    private Terminal terminal;
+    public Terminal terminal;
 
     /**
      *

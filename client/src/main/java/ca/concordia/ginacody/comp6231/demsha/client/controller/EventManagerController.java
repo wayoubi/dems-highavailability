@@ -79,22 +79,13 @@ public class EventManagerController {
         Pattern pattern = Pattern.compile(usernamePattern);
         if(!pattern.matcher(userName).matches()) {
             String message  = "Invalid Username";
-            session.getUserActivityLogger().log(String.format("action [login], param userName [%s], result [%s]", userName, message));
             return shellHelper.getErrorMessage(message);
         }
         String result = null;
         try {
             session.init(userName);
-
-            //RMI
-            //EventManagementServiceFactoryBean eventManagementServiceFactoryBean = this.eventManagementServiceFactoryBeanProvider.getObject(session);
-            //EventManagementService eventManagementService = beanFactory.getBean(EventManagementService.class);
-            //result = shellHelper.getSuccessMessage(eventManagementService.login(userName));
-
-            //CORBA
             dems.EventManagementServiceImpl eventManagementServiceImpl = eventManagementServiceCorbaBean.locateObject(session.getLocation());
             result = shellHelper.getSuccessMessage(eventManagementServiceImpl.login(userName));
-
         } catch (EventManagementServiceException e) {
             session.getUserActivityLogger().log(String.format("action [login], param userName [%s], error [%s]", userName, e.getMessage()));
             return shellHelper.getErrorMessage(e.getMessage());
@@ -103,7 +94,8 @@ public class EventManagerController {
             return shellHelper.getErrorMessage(e.getMessage());
         } catch (Exception e) {
             session.getUserActivityLogger().log(String.format("action [login], param userName [%s], error [%s]", userName, e.getMessage()));
-            return shellHelper.getErrorMessage(e.getMessage());
+            e.printStackTrace(shellHelper.terminal.writer());
+            return null;
         }
         session.getUserActivityLogger().log(String.format("action [login], param userName [%s], result [%s]", userName, result));
         return result;
