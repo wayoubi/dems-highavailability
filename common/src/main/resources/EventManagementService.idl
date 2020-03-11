@@ -1,0 +1,15 @@
+module dems
+{
+  interface EventManagementServiceImpl
+  {
+     string login(in string userName);
+     string addEvent(in string eventID, in string eventType, in long bookingCapacity);
+     string removeEvent(in string eventID, in string eventType);
+     string listEventAvailability(in string eventType);
+     string bookEvent(in string customerID, in string eventID, in string eventType);
+     string getBookingSchedule(in string customerID);
+     string cancelEvent(in string customerID, in string eventID, in string eventType) ;
+     string swapEvent(in string customerID, in string eventID, in string eventType, in string oldEventID, in string oldEventType);
+     oneway void shutdown();
+    };
+};
