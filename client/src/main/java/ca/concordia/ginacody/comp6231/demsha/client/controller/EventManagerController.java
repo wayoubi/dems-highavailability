@@ -84,7 +84,8 @@ public class EventManagerController {
         String result = null;
         try {
             session.init(userName);
-            dems.EventManagementServiceImpl eventManagementServiceImpl = eventManagementServiceCorbaBean.locateObject(session.getLocation());
+            //dems.EventManagementServiceImpl eventManagementServiceImpl = eventManagementServiceCorbaBean.locateObject(session.getLocation());
+            dems.EventManagementServiceImpl eventManagementServiceImpl = eventManagementServiceCorbaBean.locateObject("frontend");
             result = shellHelper.getSuccessMessage(eventManagementServiceImpl.login(userName));
         } catch (EventManagementServiceException e) {
             session.getUserActivityLogger().log(String.format("action [login], param userName [%s], error [%s]", userName, e.getMessage()));

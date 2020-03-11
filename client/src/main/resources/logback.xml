@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <configuration>
 	<appender name="FILE" class="ch.qos.logback.core.FileAppender">
-		<file>client/log/edms-client.log</file>
+		<file>edms-client.log</file>
 		<append>true</append>
 		<immediateFlush>true</immediateFlush>
 		<encoder>
