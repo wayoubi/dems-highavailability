@@ -142,13 +142,7 @@ public class BookingController {
 
         String result = null;
         try {
-            //RMI
-//            EventManagementServiceFactoryBean eventManagementServiceFactoryBean = this.eventManagementServiceFactoryBeanProvider.getObject(session);
-//            EventManagementService eventManagementService = beanFactory.getBean(EventManagementService.class);
-//            result = shellHelper.getSuccessMessage(eventManagementService.bookEvent(customerID, eventID, EventType.get(eventType)));
-
-            //CORBA
-            dems.EventManagementServiceImpl eventManagementServiceImpl = eventManagementServiceCorbaBean.locateObject(session.getLocation());
+            dems.EventManagementServiceImpl eventManagementServiceImpl = eventManagementServiceCorbaBean.locateObject("frontend");
             result = shellHelper.getSuccessMessage(eventManagementServiceImpl.bookEvent(customerID, eventID, eventType));
 
         } catch (EventManagementServiceException e) {
@@ -203,16 +197,8 @@ public class BookingController {
 
         String result = null;
         try {
-            //RMI
-//            EventManagementServiceFactoryBean eventManagementServiceFactoryBean = this.eventManagementServiceFactoryBeanProvider.getObject(session);
-//            EventManagementService eventManagementService = beanFactory.getBean(EventManagementService.class);
-//            result = shellHelper.getSuccessMessage(eventManagementService.getBookingSchedule(customerID));
-
-
-            //CORBA
-            dems.EventManagementServiceImpl eventManagementServiceImpl = eventManagementServiceCorbaBean.locateObject(session.getLocation());
+            dems.EventManagementServiceImpl eventManagementServiceImpl = eventManagementServiceCorbaBean.locateObject("frontend");
             result = shellHelper.getSuccessMessage(eventManagementServiceImpl.getBookingSchedule(customerID));
-
         } catch (EventManagementServiceException e) {
             session.getUserActivityLogger().log(String.format("action [bookEvent], param customerID [%s], error [%s]", customerID, e.getMessage()));
             return shellHelper.getErrorMessage(e.getMessage());
@@ -304,16 +290,8 @@ public class BookingController {
 
         String result = null;
         try {
-            //RMI
-//            EventManagementServiceFactoryBean eventManagementServiceFactoryBean = this.eventManagementServiceFactoryBeanProvider.getObject(session);
-//            EventManagementService eventManagementService = beanFactory.getBean(EventManagementService.class);
-//            result = shellHelper.getSuccessMessage(eventManagementService.cancelEvent(customerID, eventID, EventType.get(eventType)));
-
-            //CORBA
-            dems.EventManagementServiceImpl eventManagementServiceImpl = eventManagementServiceCorbaBean.locateObject(session.getLocation());
+            dems.EventManagementServiceImpl eventManagementServiceImpl = eventManagementServiceCorbaBean.locateObject("frontend");
             result = shellHelper.getSuccessMessage(eventManagementServiceImpl.cancelEvent(customerID, eventID, eventType));
-
-
         } catch (EventManagementServiceException e) {
             session.getUserActivityLogger().log(String.format("action [cancelEvent], param customerID [%s], eventID [%s], eventType [%s], error [%s]", customerID, eventID, eventType, e.getMessage()));
             return shellHelper.getErrorMessage(e.getMessage());
@@ -444,10 +422,8 @@ public class BookingController {
 
         String result = null;
         try {
-            //Supported By CORBA Only
-            dems.EventManagementServiceImpl eventManagementServiceImpl = eventManagementServiceCorbaBean.locateObject(session.getLocation());
+            dems.EventManagementServiceImpl eventManagementServiceImpl = eventManagementServiceCorbaBean.locateObject("frontend");
             result = shellHelper.getSuccessMessage(eventManagementServiceImpl.swapEvent(customerID, eventID, eventType, oldEventID, oldEventType));
-
         } catch (EventManagementServiceException e) {
             session.getUserActivityLogger().log(String.format(debugErrorMessage, customerID, eventID, eventType, oldEventID, oldEventType, e.getMessage()));
             return shellHelper.getErrorMessage(e.getMessage());

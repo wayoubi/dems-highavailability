@@ -84,7 +84,6 @@ public class EventManagerController {
         String result = null;
         try {
             session.init(userName);
-            //dems.EventManagementServiceImpl eventManagementServiceImpl = eventManagementServiceCorbaBean.locateObject(session.getLocation());
             dems.EventManagementServiceImpl eventManagementServiceImpl = eventManagementServiceCorbaBean.locateObject("frontend");
             result = shellHelper.getSuccessMessage(eventManagementServiceImpl.login(userName));
         } catch (EventManagementServiceException e) {
@@ -179,17 +178,8 @@ public class EventManagerController {
 
         String result = null;
         try {
-
-            //RMI
-//            EventManagementServiceFactoryBean eventManagementServiceFactoryBean = this.eventManagementServiceFactoryBeanProvider.getObject(session);
-//            EventManagementService eventManagementService = beanFactory.getBean(EventManagementService.class);
-//            result = shellHelper.getSuccessMessage(eventManagementService.addEvent(eventID, EventType.get(eventType), capacityValue));
-
-            //CORBA
-            dems.EventManagementServiceImpl eventManagementServiceImpl = eventManagementServiceCorbaBean.locateObject(session.getLocation());
+            dems.EventManagementServiceImpl eventManagementServiceImpl = eventManagementServiceCorbaBean.locateObject("frontend");
             result = shellHelper.getSuccessMessage(eventManagementServiceImpl.addEvent(eventID, eventType, capacityValue));
-
-
         } catch (EventManagementServiceException e) {
             session.getUserActivityLogger().log(String.format("action [createEvent], param eventID [%s], eventType [%s], capacity [%s] error [%s]", eventID, eventType, capacity, e.getMessage()));
             return shellHelper.getErrorMessage(e.getMessage());
@@ -269,16 +259,8 @@ public class EventManagerController {
 
         String result = null;
         try {
-
-            //RMI
-//            EventManagementServiceFactoryBean eventManagementServiceFactoryBean = this.eventManagementServiceFactoryBeanProvider.getObject(session);
-//            EventManagementService eventManagementService = beanFactory.getBean(EventManagementService.class);
-//            result = shellHelper.getSuccessMessage(eventManagementService.removeEvent(eventID, EventType.get(eventType)));
-
-            //CORBA
-            dems.EventManagementServiceImpl eventManagementServiceImpl = eventManagementServiceCorbaBean.locateObject(session.getLocation());
+            dems.EventManagementServiceImpl eventManagementServiceImpl = eventManagementServiceCorbaBean.locateObject("frontend");
             result = shellHelper.getSuccessMessage(eventManagementServiceImpl.removeEvent(eventID, eventType));
-
         } catch (EventManagementServiceException e) {
             session.getUserActivityLogger().log(String.format("action [removeEvent], param eventID [%s], eventType [%s], error [%s]", eventID, eventType, e.getMessage()));
             return shellHelper.getErrorMessage(e.getMessage());
@@ -324,16 +306,8 @@ public class EventManagerController {
 
         String result = null;
         try {
-
-            //RMI
-//            EventManagementServiceFactoryBean eventManagementServiceFactoryBean = this.eventManagementServiceFactoryBeanProvider.getObject(session);
-//            EventManagementService eventManagementService = beanFactory.getBean(EventManagementService.class);
-//            result = shellHelper.getSuccessMessage(eventManagementService.listEventAvailability(EventType.get(eventType)));
-
-            //CORBA
-            dems.EventManagementServiceImpl eventManagementServiceImpl = eventManagementServiceCorbaBean.locateObject(session.getLocation());
+            dems.EventManagementServiceImpl eventManagementServiceImpl = eventManagementServiceCorbaBean.locateObject("frontend");
             result = shellHelper.getSuccessMessage(eventManagementServiceImpl.listEventAvailability(eventType));
-
         } catch (EventManagementServiceException e) {
             session.getUserActivityLogger().log(String.format("action [listEventAvailability], param eventType [%s], error [%s]", eventType, e.getMessage()));
             return shellHelper.getErrorMessage(e.getMessage());

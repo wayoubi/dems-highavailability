@@ -23,25 +23,35 @@ public class    ServerRunner {
     public static void main(String[] args) {
 
         LOGGER.debug("checking passed parameters, count {} ", args.length);
-        if(args.length != 2 ) {
-            LOGGER.error("Please add required arguments, ORB Port, ORB Host");
+        if(args.length != 4 ) {
+            LOGGER.error("Please add required arguments, CORBA Naming Service Host, CORBA Naming Service Port, Sequencer Host, Sequencer Port ");
             return;
         }
 
-        LOGGER.debug("checking passed ORB Server port to be valid {}", args[0]);
+
+        LOGGER.debug("checking passed CORBA Naming Service Host to be valid {}", args[0]);
+        Configuration.ORB_HOST = args[0];
+
+        LOGGER.debug("checking passed CORBA Naming Service Port to be valid {}", args[1]);
         try {
-            Configuration.ORB_PORT = Integer.parseInt(args[0]);
+            Configuration.ORB_PORT = Integer.parseInt(args[1]);
         } catch(NumberFormatException nfex) {
             LOGGER.error("Passed ORB port is invalid {}, default will be used {}", args[0].trim(), Configuration.ORB_PORT);
         }
 
-        LOGGER.debug("checking passed ORB Host to be valid {}", args[1]);
-        Configuration.ORB_HOST = args[1];
+        LOGGER.debug("checking passed Sequencer Host to be valid {}", args[2]);
+        Configuration.SEQUENCER_HOST = args[2];
+
+        LOGGER.debug("checking passed Sequencer port to be valid {}", args[3]);
+        try {
+            Configuration.SEQUENCER_PORT = Integer.parseInt(args[3]);
+        } catch(NumberFormatException nfex) {
+            LOGGER.error("Passed Sequencer port is invalid {}, default will be used {}", args[0].trim(), Configuration.ORB_PORT);
+        }
 
         LOGGER.info("Starting CORBA Server .....");
         Thread corbaServerThread = new Thread(new CorbaServer());
         corbaServerThread.setName("CORBA Server Thread");
         corbaServerThread.start();
     }
-
 }
