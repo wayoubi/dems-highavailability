@@ -58,6 +58,7 @@ Run the Frontend
 # 4 Sequencer Port, default 8080
 # 5 Mutlicast IP, dfault 224.0.0.110
 # 6 Multicast Port, default 4443
+# use run.cmd is you're on Windows
 
 cd frontend
 ./run.sh localhost 1050 localhost 8080 224.0.0.110 4446
@@ -70,6 +71,7 @@ Run the Sequencer
 # 1 UDP Unicast Listening Port, default 8080 
 # 2 Mutlicast IP, default 224.0.0.110
 # 3 Multicast Port, default 4443
+# use run.cmd is you're on Windows
 
 cd sequencer
 ./run.sh 8080 224.0.0.110 4446
@@ -82,6 +84,7 @@ Run the Replica Manager
 # 1 Replica Manager Name, default RM$ where $ is 1,2,3 and so on
 # 2 Mutlicast IP, default 224.0.0.110
 # 3 Multicast Port, default 4443 
+# use run.cmd is you're on Windows
 
 cd replica-manager
 ./run.sh RM1 224.0.0.110 4446 localhost
