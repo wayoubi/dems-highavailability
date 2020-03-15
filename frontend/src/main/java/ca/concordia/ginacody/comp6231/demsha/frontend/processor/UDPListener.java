@@ -60,12 +60,17 @@ public class UDPListener implements Runnable {
                 String message = new String(messagePacket.getData()).substring(0, messagePacket.getData().length);
                 Configuration.TIMEOUT = (int) (this.requestProcessor.timestamp.getTime() - new Date().getTime()) * 2;
                 aSocket.setSoTimeout(Configuration.TIMEOUT);
+                //TODO use RM ID
                 this.requestProcessor.replies.put("RM1",message);
                 counter++;
             }
         } catch (SocketTimeoutException e) {
-            //TODO inform the replica managers about unresponsive replicas, use UDP multicast to do that
-            LOGGER.error("Response(s) are not received withing the timeout");
+            //TODO report failing RM(s)
+            String message = "command=system&problem=no-response&rm=RM1,RM2,RM3";
+            LOGGER.error(String.format("Response(s) are not received withing the timeout, RM(s) will be notified %s", message));
+            MulticastDispatcher multicastDispatcher = new MulticastDispatcher(message);
+            multicastDispatcher.setName(String.format("Message MulticastDispatcher - ", multicastDispatcher.hashCode()));
+            multicastDispatcher.start();
         } catch (SocketException e) {
             LOGGER.error(e.getMessage());
         } catch (IOException e) {
@@ -73,5 +78,6 @@ public class UDPListener implements Runnable {
         } finally {
             if (aSocket != null) aSocket.close();
         }
+        LOGGER.info(String.format("%s is terminated", Thread.currentThread().getName()));
     }
 }

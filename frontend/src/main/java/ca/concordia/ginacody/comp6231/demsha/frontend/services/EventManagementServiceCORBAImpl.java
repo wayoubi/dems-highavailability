@@ -1,7 +1,8 @@
 package ca.concordia.ginacody.comp6231.demsha.frontend.services;
 
 import ca.concordia.ginacody.comp6231.demsha.frontend.processor.RequestProcessor;
-import ca.concordia.ginacody.comp6231.demsha.frontend.util.SocketUtils;
+
+import ca.concordia.ginacody.comp6231.demsha.common.util.SocketUtils;
 import dems.EventManagementServiceImplPOA;
 import org.omg.CORBA.ORB;
 import org.slf4j.Logger;
@@ -93,11 +94,8 @@ public class EventManagementServiceCORBAImpl extends EventManagementServiceImplP
      * @return
      */
     private String process(String message) {
-        LOGGER.info("Starting UDP Server for this request .....");
-        int port = SocketUtils.findAvailableUdpPort(8000,8100);
-        message = message.concat(String.format("&feport=%s", port));
-        LOGGER.info(message);
-        RequestProcessor requestProcessor = new RequestProcessor(message, port);
+        LOGGER.info(String.format("Starting UDP Listener for new request %s", message));
+        RequestProcessor requestProcessor = new RequestProcessor(message);
         requestProcessor.start();
         try {
             requestProcessor.udpListenerThread.join(0);

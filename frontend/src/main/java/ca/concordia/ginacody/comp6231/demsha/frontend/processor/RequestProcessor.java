@@ -1,5 +1,6 @@
 package ca.concordia.ginacody.comp6231.demsha.frontend.processor;
 
+import ca.concordia.ginacody.comp6231.demsha.common.util.SocketUtils;
 import ca.concordia.ginacody.comp6231.demsha.frontend.config.Configuration;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -42,13 +43,15 @@ public class RequestProcessor extends Thread {
 
     /**
      *
-     * @param port
+     * @param message
      */
-    public RequestProcessor(String message, int port){
+    public RequestProcessor(String message){
+        this.setName("RequestProcessor");
         this.replies = new HashMap<>();
-        this.message = message;
+        int port = SocketUtils.findAvailableUdpPort(8000,8100);
+        this.message = message.concat(String.format("&feport=%s", port));
         this.udpListenerThread = new Thread(new UDPListener(port, this));
-        this.udpListenerThread.setName(String.format("UDP Server Thread listening on port %s", port));
+        this.udpListenerThread.setName(String.format("UDP Listener on port %s", port));
         this.udpListenerThread.start();
     }
 
@@ -63,6 +66,7 @@ public class RequestProcessor extends Thread {
             byte[] m = this.message.getBytes();
             InetAddress aHost = InetAddress.getByName(Configuration.SEQUENCER_HOST);
             DatagramPacket request = new DatagramPacket(m, m.length, aHost, Configuration.SEQUENCER_PORT);
+            LOGGER.info(String.format("Sending Message: %s", this.message));
             aSocket.send(request);
             timestamp = new Date();
         } catch (SocketException e) {

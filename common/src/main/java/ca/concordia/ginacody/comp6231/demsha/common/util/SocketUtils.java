@@ -1,4 +1,4 @@
-package ca.concordia.ginacody.comp6231.demsha.frontend.util;
+package ca.concordia.ginacody.comp6231.demsha.common.util;
 
 import java.net.DatagramSocket;
 import java.net.InetAddress;
@@ -96,8 +96,8 @@ public class SocketUtils {
         return SocketType.UDP.findAvailablePorts(numRequested, minPort, maxPort);
     }
 
-
     private enum SocketType {
+
 
         TCP {
             @Override
