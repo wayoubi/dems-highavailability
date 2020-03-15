@@ -51,7 +51,7 @@ public class    ServerRunner {
         }
 
         LOGGER.debug("checking passed UDP Multicast IP to be valid {}", args[4]);
-        if(args[4].startsWith("230") && IPAddressUtil.isIPv4LiteralAddress(args[4])) {
+        if(args[4].startsWith("224") && IPAddressUtil.isIPv4LiteralAddress(args[4])) {
             Configuration.MULTICAST_IP = args[4];
         } else {
             LOGGER.error("Passed UDP Multicast IP is invalid {}, default will be used {}", args[4].trim(), Configuration.MULTICAST_IP);

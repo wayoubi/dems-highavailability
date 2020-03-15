@@ -1,6 +1,6 @@
-package ca.concordia.ginacody.comp6231.demsha.sequencer;
+package ca.concordia.ginacody.comp6231.demsha.replicamgr;
 
-import ca.concordia.ginacody.comp6231.demsha.sequencer.config.Configuration;
+import ca.concordia.ginacody.comp6231.demsha.replicamgr.config.Configuration;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import sun.net.util.IPAddressUtil;
@@ -22,17 +22,13 @@ public class ServerRunner {
     public static void main(String[] args) {
 
         LOGGER.debug("checking passed parameters, count {} ", args.length);
-        if(args.length != 3 ) {
-            LOGGER.error("Please add required arguments, UDP Listener Port, RM Multicast IP, UDP Multicast Port");
+        if(args.length != 4) {
+            LOGGER.error("Please add required arguments, RM Name, RM Multicast IP, UDP Multicast Port, Frontend Host");
             return;
         }
 
-        LOGGER.debug("checking passed UDP Listener port to be in valid {}", args[0]);
-        try {
-            Configuration.UDP_PORT = Integer.parseInt(args[0]);
-        } catch(NumberFormatException nfex) {
-            LOGGER.error("Passed UDP Listener port is invalid {}, default will be used {}", args[0].trim(), Configuration.UDP_PORT);
-        }
+        LOGGER.debug("checking passed RM Name to be valid {}", args[0]);
+        Configuration.SERVER_NAME = args[0];
 
         LOGGER.debug("checking passed UDP Multicast IP to be valid {}", args[1]);
         if(args[1].startsWith("224") && IPAddressUtil.isIPv4LiteralAddress(args[1])) {
@@ -47,6 +43,9 @@ public class ServerRunner {
         } catch(NumberFormatException nfex) {
             LOGGER.error("Passed UDP Multicast Port is invalid {}, default will be used {}", args[2].trim(), Configuration.MULTICAST_PORT);
         }
+
+        LOGGER.debug("checking passed Frontend Host to be valid {}", args[3]);
+        Configuration.FRONT_END_HOST = args[3];
 
         LOGGER.info("Starting UDP Server .....");
         Thread udpServerThread = new Thread(new UDPServer());

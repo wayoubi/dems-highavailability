@@ -53,20 +53,20 @@ public class UDPListener implements Runnable {
             LOGGER.info("UDP Server started on port {}, Listening ......", port);
             int counter = 0;
             while (counter < Configuration.REPLICA_MANAGERS_COUNT) {
-                byte[] buffer = new byte[1000];
+                byte[] buffer = new byte[1024];
                 DatagramPacket messagePacket = new DatagramPacket(buffer, buffer.length);
                 aSocket.receive(messagePacket);
-                LOGGER.info("New message received from RM");
-                String message = new String(messagePacket.getData()).substring(0, messagePacket.getData().length);
-                Configuration.TIMEOUT = (int) (this.requestProcessor.timestamp.getTime() - new Date().getTime()) * 2;
-                aSocket.setSoTimeout(Configuration.TIMEOUT);
+                String message = new String(messagePacket.getData()).substring(0, messagePacket.getLength());
+                Date timestamp = new Date();
+                int responseTime = (int) (timestamp.getTime() - this.requestProcessor.timestamp.getTime() );
+                LOGGER.info(String.format("New message received from RM %s in %s miliseconds", message, responseTime));
+                aSocket.setSoTimeout(responseTime*2);
                 //TODO use RM ID
                 this.requestProcessor.replies.put("RM1",message);
                 counter++;
             }
         } catch (SocketTimeoutException e) {
-            //TODO report failing RM(s)
-            String message = "command=system&problem=no-response&rm=RM1,RM2,RM3";
+            String message = "command=system&problem=no-response&rm=RM1&rm=RM2&rm=RM3";
             LOGGER.error(String.format("Response(s) are not received withing the timeout, RM(s) will be notified %s", message));
             MulticastDispatcher multicastDispatcher = new MulticastDispatcher(message);
             multicastDispatcher.setName(String.format("Message MulticastDispatcher - ", multicastDispatcher.hashCode()));

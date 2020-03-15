@@ -78,7 +78,7 @@ public class EventManagementServiceCORBAImpl extends EventManagementServiceImplP
 
     @Override
     public String swapEvent(String customerID, String eventID, String eventType, String oldEventID, String oldEventType) {
-        String message = String.format("command=swapEvent&customerID=%s&eventID=%s&eventType=%s&oldEventID=%s&oldEventType=%s&",customerID, eventID, eventType, oldEventID, oldEventType);
+        String message = String.format("command=swapEvent&customerID=%s&eventID=%s&eventType=%s&oldEventID=%s&oldEventType=%s",customerID, eventID, eventType, oldEventID, oldEventType);
         String result = this.process(message);
         return result;
     }

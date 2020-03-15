@@ -10,14 +10,14 @@ public class Configuration {
     public static final String SERVER_NAME = "sequencer";
 
     /**
-     * default 230.0.0.110
+     * default 224.0.0.110
      */
-    public static String MULTICAST_IP =  "230.0.0.110";
+    public static String MULTICAST_IP =  "224.0.0.110";
 
     /**
      * default 4446
      */
-    public static int MULTICAST_PORT = 7070;
+    public static int MULTICAST_PORT = 4446;
 
     /**
      * default 8081

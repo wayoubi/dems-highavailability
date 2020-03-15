@@ -66,9 +66,9 @@ public class RequestProcessor extends Thread {
             byte[] m = this.message.getBytes();
             InetAddress aHost = InetAddress.getByName(Configuration.SEQUENCER_HOST);
             DatagramPacket request = new DatagramPacket(m, m.length, aHost, Configuration.SEQUENCER_PORT);
+            timestamp = new Date();
             LOGGER.info(String.format("Sending Message: %s", this.message));
             aSocket.send(request);
-            timestamp = new Date();
         } catch (SocketException e) {
             LOGGER.error("{}", e.getMessage());
         } catch (IOException e) {
