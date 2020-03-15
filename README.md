@@ -69,6 +69,9 @@ $ ./runorbd.sh
 # use run.cmd is you're on Windows
 $ runorbd.bat
 
+#You can also run the ORBD from the Java bin folder
+$ orbd -ORBInitialPort 1050
+
 ```
 
 Run the Frontend
