@@ -127,6 +127,19 @@ run.bat RM1 224.0.0.110 4446 localhost
 
 ```
 
+Run the DEMS Client
+```sh 
+# While you are in the dems-highavailability folder
+
+cd client
+./run.sh
+
+# use run.cmd is you're on Windows
+cd client
+run.bat
+
+```
+
 Run the DMES Server
 ```sh 
 # //TODO incomplete yet
