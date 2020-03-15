@@ -31,6 +31,16 @@ java version "1.8.0_144"
 Java(TM) SE Runtime Environment (build 1.8.0_144-b01)
 Java HotSpot(TM) 64-Bit Server VM (build 25.144-b01, mixed mode)
 ```
+Please make sure your Maven on the path, for example use
+```sh 
+$ mvn -version
+Apache Maven 3.6.2 (40f52333136460af0dc0d7232c0dc0bcf0d9e117; 2019-08-27T11:06:16-04:00)
+Maven home: /Users/i857625/Work/tools/apache-maven-3.6.2
+Java version: 1.8.0_212, vendor: Oracle Corporation, runtime: /Library/Java/JavaVirtualMachines/jdk1.8.0_212.jdk/Contents/Home/jre
+Default locale: en_CA, platform encoding: UTF-8
+OS name: "mac os x", version: "10.15.3", arch: "x86_64", family: "mac"
+```
+
 
 Download the source code from github, on your computer open new terminal
 ```sh 
