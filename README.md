@@ -34,7 +34,6 @@ Java HotSpot(TM) 64-Bit Server VM (build 25.144-b01, mixed mode)
 
 Download the source code from github, on your computer open new terminal
 ```sh 
-cd dems-highavailability
 $ git clone https://github.com/wayoubi/dems-highavailability.git
 ```
 
@@ -93,13 +92,13 @@ Run the DMES Server
 # //TODO incomplete yet
 ```
 
-#Introduction
+## Introduction
 The Distributed Event Management System (DEMS) is an event management solution designed to help businesses to manage events and bookings over remote locations (cities) in a client server and peer to peer architecture style. The events database of each city is stored in the local server of that location offering high availability and avoiding single point of failure. The system is designed to support concurrency, low latency and thread safety. The system is designed and implemented to be presented for the assignments and the project required for Distributed System Design [COMP 6231] course offered during Winter 2020 at Concordia University. 
 
 The two major functional requirements of the system are to manage events (create, update, remove and list), Events Management should be performed by Managers only. On the other hand, Booking Management (Make, Cancel and List Bookings) can be performed by both Event Managers and Costumers. The following Use Case diagram showing the use cases (functional requirements) of DEMS
 
 ![DEMS Use Case Diagram](resources/usecase.png)
 
-# Architecture
+## Architecture
 
 ![DEMS Use Case Diagram](resources/architecture.png)
