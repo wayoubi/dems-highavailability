@@ -75,7 +75,7 @@ cd frontend
 
 # use run.cmd is you're on Windows
 cd frontend
-run.cmd localhost 1050 localhost 8080 224.0.0.110 4446
+run.bat localhost 1050 localhost 8080 224.0.0.110 4446
 ```
 
 Run the Sequencer
@@ -91,7 +91,7 @@ cd sequencer
 
 # use run.cmd is you're on Windows
 cd sequencer
-run.cmd 8080 224.0.0.110 4446
+run.bat 8080 224.0.0.110 4446
 
 ```
 
@@ -108,7 +108,7 @@ cd replica-manager
 
 # use run.cmd is you're on Windows
 cd replica-manager
-run.cmd RM1 224.0.0.110 4446 localhost
+run.bat RM1 224.0.0.110 4446 localhost
 
 ```
 
