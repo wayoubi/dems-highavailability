@@ -1,4 +1,4 @@
-<img alt="Concordia University" src="resources/ginacody.jpeg" />
+![DEMS Use Case Diagram](resources/ginacody.jpeg)
 <p>
   <img alt="Version" src="https://img.shields.io/badge/version-0.9.01-blue.svg?cacheSeconds=2592000" />
   <a href="https://github.com/wayoubi/RiskGame/wiki">
@@ -8,7 +8,6 @@
     <img alt="Maintenance" src="https://img.shields.io/badge/Maintained%3F-yes-green.svg" target="_blank" />
   </a>
   <h1>Distributed Event Management System with High Availability Fault Tolerance</h1>
-  <h2>COMP 6231</hw>
   <br/>
   <img src="resources/banner.png" />
 </p>
@@ -37,6 +36,16 @@ Download the source code from github, on your computer open new terminal
 ```sh 
 $ git clone https://github.com/wayoubi/dems-highavailability.git
 ```
+
+Compile and Build all system components
+```sh
+./mvnw.sh clean install 
+```
+If you are using Windows
+```sh
+./mvnw.cmd clean install 
+```
+
 Run the Frontend
 ```sh 
 # Required parameters in order 
@@ -78,13 +87,13 @@ Run the DMES Server
 # //TODO incomplete yet
 ```
 
-##Introduction
+#Introduction
 The Distributed Event Management System (DEMS) is an event management solution designed to help businesses to manage events and bookings over remote locations (cities) in a client server and peer to peer architecture style. The events database of each city is stored in the local server of that location offering high availability and avoiding single point of failure. The system is designed to support concurrency, low latency and thread safety. The system is designed and implemented to be presented for the assignments and the project required for Distributed System Design [COMP 6231] course offered during Winter 2020 at Concordia University. 
 
 The two major functional requirements of the system are to manage events (create, update, remove and list), Events Management should be performed by Managers only. On the other hand, Booking Management (Make, Cancel and List Bookings) can be performed by both Event Managers and Costumers. The following Use Case diagram showing the use cases (functional requirements) of DEMS
 
-![DEMS Use Case Diagram](images/usecase.png)
+![DEMS Use Case Diagram](resources/usecase.png)
 
-## Arhitecture
+# Architecture
 
-![DEMS Use Case Diagram](images/architecture.png)
+![DEMS Use Case Diagram](resources/architecture.png)
