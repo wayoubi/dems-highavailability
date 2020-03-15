@@ -1,2 +1,3 @@
+@echo off
 echo "Starting ORB Deamon"
-orbd -ORBInitialPort 1050
+call orbd -ORBInitialPort 1050
