@@ -34,20 +34,24 @@ Java HotSpot(TM) 64-Bit Server VM (build 25.144-b01, mixed mode)
 
 Download the source code from github, on your computer open new terminal
 ```sh 
+cd dems-highavailability
 $ git clone https://github.com/wayoubi/dems-highavailability.git
 ```
 
 Compile and Build all system components
 ```sh
+cd dems-highavailability
 ./mvnw.sh clean install 
 ```
 If you are using Windows
 ```sh
+cd dems-highavailability
 ./mvnw.cmd clean install 
 ```
 
 Run the Frontend
 ```sh 
+# While you are in the dems-highavailability folder
 # Required parameters in order 
 # 1 CORBA Naming Serivce Host
 # 2 CORBA Naming Serivce Port
@@ -62,6 +66,7 @@ cd frontend
 
 Run the Sequencer
 ```sh 
+# While you are in the dems-highavailability folder
 # Required parameters in order 
 # 1 UDP Unicast Listening Port 
 # 2 Mutlicast IP
@@ -73,6 +78,7 @@ cd sequencer
 
 Run the Replica Manager
 ```sh 
+# While you are in the dems-highavailability folder
 # Required parameters in order
 # 1 Replica Manager Name
 # 2 Mutlicast IP
