@@ -59,6 +59,18 @@ cd dems-highavailability
 mvnw.cmd clean install 
 ```
 
+Run the ORBD
+```sh 
+# default CORBA Naming Service host is localhost
+# default CORBA Naming Service port is 1050
+
+$ ./runorbd.sh 
+
+# use run.cmd is you're on Windows
+$ runorbd.bat
+
+```
+
 Run the Frontend
 ```sh 
 # While you are in the dems-highavailability folder
