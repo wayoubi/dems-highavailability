@@ -47,10 +47,11 @@ public class ResponseProcessor extends Thread {
             LOGGER.error(String.format("Request will be ignored, %s", this.message));
             return;
         }
+
         //TODO Multicast the Message to all Replicas once received from the sequencer
-        boolean isReplicaMessage = request.getPrameterValue(Request.SOURCE)!=null;
-        if(!isReplicaMessage){
-            String temp = this.message.concat(String.format("&%s=%s", Request.SOURCE, Configuration.SERVER_NAME));
+        if("sequencer".equals(request.getPrameterValue(Request.SOURCE))){
+            //String temp = this.message.concat(String.format("&%s=%s", Request.SOURCE, Configuration.SERVER_NAME));
+            String temp = this.message.replace("source=sequencer", String.format("source=%s", Configuration.SERVER_NAME));
             LOGGER.info("Sending the message to other RM(s) in the cluster");
             MulticastDispatcher multicastDispatcher = new MulticastDispatcher(temp);
             multicastDispatcher.run();
@@ -60,12 +61,7 @@ public class ResponseProcessor extends Thread {
             //TODO if system do something
         }
 
-
-
-
-
-
-         if (!isReplicaMessage && !request.isSystem) {
+        if ("sequencer".equals(request.getPrameterValue(Request.SOURCE)) && !request.isSystem) {
             //TODO Reply to FE
             DatagramSocket aSocket = null;
             try {
@@ -73,7 +69,8 @@ public class ResponseProcessor extends Thread {
                 String port = request.getPrameterValue(Request.FRONT_END_PORT)  ;
                 InetAddress inetAddress = InetAddress.getByName(Configuration.FRONT_END_HOST);
                 LOGGER.info(String.format("Sending the reply to FE on port %s", port));
-                this.message = this.message.concat(String.format("&rm=%s", Configuration.SERVER_NAME));
+                this.message = this.message.replace("source=sequencer", String.format("source=%s", Configuration.SERVER_NAME));
+                this.message = this.message.concat(String.format("&result=ok"));
                 DatagramPacket reply = new DatagramPacket(this.message.getBytes(), this.message.getBytes().length, inetAddress, Integer.parseInt(port));
                 aSocket.send(reply);
             } catch (IOException ioex) {

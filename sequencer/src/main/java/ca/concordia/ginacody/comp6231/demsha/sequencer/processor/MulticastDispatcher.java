@@ -25,6 +25,7 @@ public class MulticastDispatcher extends Thread {
      */
     public MulticastDispatcher(String requestMessage){
         this.requestMessage = requestMessage;
+        this.requestMessage = this.requestMessage.replace("source=frontend", "source=sequencer");
     }
 
     /**

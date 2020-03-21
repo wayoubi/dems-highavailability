@@ -49,6 +49,7 @@ public class UDPServer implements Runnable {
                 LOGGER.info(String.format("New message received by Sequencer, it be dispatched to RM using UPD Multicast %s:%s", Configuration.MULTICAST_IP, Configuration.MULTICAST_PORT));
                 String message = new String(datagramPacket.getData()).substring(0, datagramPacket.getLength());
                 message = message.concat(String.format("&sequence=%s", ++Configuration.MESSAGE_SEQUENCE));
+                message = message.replace("source=frontend", "source=sequencer");
                 LOGGER.info(String.format("Dispatched Message size (%s) %s ", message.length(), message));
                 MulticastDispatcher multicastDispatcher = new MulticastDispatcher(message);
                 multicastDispatcher.setName(String.format("Message MulticastDispatcher - ", multicastDispatcher.hashCode()));

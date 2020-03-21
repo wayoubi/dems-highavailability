@@ -1,6 +1,6 @@
 package ca.concordia.ginacody.comp6231.demsha.replicamgr.vo;
 
-import ca.concordia.ginacody.comp6231.demsha.replicamgr.utils.CommandParser;
+import ca.concordia.ginacody.comp6231.demsha.common.util.MessageParser;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -38,7 +38,7 @@ public class Request {
     /**
      *
      */
-    private Map<String, List<String>> parameters;
+    MessageParser messageParser = null;
 
     /**
      *
@@ -61,16 +61,15 @@ public class Request {
      */
     public Request(String received) throws IllegalArgumentException {
         this.received =  received;
-        CommandParser commandParser = new CommandParser();
-        parameters = commandParser.split(received);
+        messageParser = new MessageParser(this.received);
 
-        parameters.computeIfAbsent(Request.COMMAND, s -> {
+        messageParser.query_pairs.computeIfAbsent(Request.COMMAND, s -> {
             String message = String.format("Message must have one command %s", this.received);
             LOGGER.error(message);
             throw new IllegalArgumentException(message);
         });
 
-        parameters.computeIfPresent(Request.COMMAND, (s, list) -> {
+        messageParser.query_pairs.computeIfPresent(Request.COMMAND, (s, list) -> {
             if(list.size()>1){
                 String message = String.format("Message cannot have more than one command %s", this.received);
                 LOGGER.error(message);
@@ -83,7 +82,7 @@ public class Request {
            return list;
         });
 
-        parameters.computeIfPresent(Request.FRONT_END_PORT, (s, list) -> {
+        messageParser.query_pairs.computeIfPresent(Request.FRONT_END_PORT, (s, list) -> {
             if(list.size()>1){
                 String message = String.format("Message cannot have more than one front end port %s", this.received);
                 LOGGER.error(message);
@@ -92,7 +91,7 @@ public class Request {
             return list;
         });
 
-        parameters.computeIfPresent(Request.SEQUENCE, (s, list) -> {
+        messageParser.query_pairs.computeIfPresent(Request.SEQUENCE, (s, list) -> {
             if(list.size()>1){
                 String message = String.format("Message cannot have more than one sequence %s", this.received);
                 LOGGER.error(message);
@@ -104,24 +103,21 @@ public class Request {
 
     /**
      *
-     * @param key
+     * @param source
      * @return
      */
-    public List<String> getPrameterValues(String key) {
-        return this.parameters.get(key);
+    public String getPrameterValue(String source) {
+        return messageParser.getPrameterValue(source);
     }
 
     /**
-     *
-     * @param key
+     *  
+     * @param source
      * @return
      */
-    public String getPrameterValue(String key) {
-        Optional<List<String>> optional = Optional.ofNullable(this.parameters.get(key));
-        String result = null;
-        if(optional.isPresent()){
-            result = optional.get().get(0);
-        }
-        return result;
+    public List<String> getPrameterValues(String source) {
+        return messageParser.getPrameterValues(source);
     }
+
+
 }

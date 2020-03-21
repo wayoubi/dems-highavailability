@@ -61,14 +61,17 @@ public class UDPListener implements Runnable {
                 int responseTime = (int) (timestamp.getTime() - this.requestProcessor.timestamp.getTime() );
                 LOGGER.info(String.format("New message received from RM %s in %s miliseconds", message, responseTime));
                 aSocket.setSoTimeout(responseTime*2);
-                //TODO use RM ID
-                this.requestProcessor.replies.put("RM1",message);
+                this.requestProcessor.messagesBuffer.add(message);
                 counter++;
             }
+            this.requestProcessor.processReplies();
         } catch (SocketTimeoutException e) {
-            String message = "command=system&problem=no-response&rm=RM1&rm=RM2&rm=RM3";
-            LOGGER.error(String.format("Response(s) are not received withing the timeout, RM(s) will be notified %s", message));
-            MulticastDispatcher multicastDispatcher = new MulticastDispatcher(message);
+            this.requestProcessor.processReplies();
+            StringBuilder stringBuilder = new StringBuilder();
+            stringBuilder.append("command=system&problem=no-response&source=frontend");
+            stringBuilder.append(this.requestProcessor.generateUnresponsiveRMParameterString());
+            LOGGER.error(String.format("Not all response(s) are received withing the timeout, RM(s) will be notified %s", stringBuilder.toString()));
+            MulticastDispatcher multicastDispatcher = new MulticastDispatcher(stringBuilder.toString());
             multicastDispatcher.setName(String.format("Message MulticastDispatcher - ", multicastDispatcher.hashCode()));
             multicastDispatcher.start();
         } catch (SocketException e) {

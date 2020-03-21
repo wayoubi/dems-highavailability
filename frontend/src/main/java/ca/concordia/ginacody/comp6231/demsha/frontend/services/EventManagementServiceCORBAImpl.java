@@ -1,5 +1,6 @@
 package ca.concordia.ginacody.comp6231.demsha.frontend.services;
 
+import ca.concordia.ginacody.comp6231.demsha.common.util.MessageParser;
 import ca.concordia.ginacody.comp6231.demsha.frontend.processor.RequestProcessor;
 
 import ca.concordia.ginacody.comp6231.demsha.common.util.SocketUtils;
@@ -7,6 +8,14 @@ import dems.EventManagementServiceImplPOA;
 import org.omg.CORBA.ORB;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import javax.swing.text.html.Option;
+import java.util.Comparator;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Optional;
+import java.util.concurrent.atomic.AtomicInteger;
+import java.util.stream.Collectors;
 
 public class EventManagementServiceCORBAImpl extends EventManagementServiceImplPOA {
 
@@ -103,7 +112,9 @@ public class EventManagementServiceCORBAImpl extends EventManagementServiceImplP
             throw new RuntimeException(e);
         }
         StringBuilder stringBuilder = new StringBuilder();
-        requestProcessor.replies.values().stream().forEach(s -> {stringBuilder.append(s);});
+        Optional<Map.Entry<String, Long>> result = requestProcessor.replies.values().stream().
+                collect(Collectors.groupingBy(s -> s, Collectors.counting())).entrySet().stream().max(Comparator.comparing(Map.Entry::getValue));
+        result.ifPresent(stringLongEntry -> {stringBuilder.append(stringLongEntry.getKey());});
         if(stringBuilder.length()==0) {
             return "System communication error! Please try again";
         }
