@@ -27,4 +27,14 @@ public class Configuration {
      */
     public static String FRONT_END_HOST = "localhost";
 
+    /**
+     * default localhost
+     */
+    public static String RMI_REGISTRY_HOST = "localhost";
+
+    /**
+     * default 1099
+     */
+    public static int RMI_PORT = 1099;
+
 }

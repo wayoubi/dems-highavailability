@@ -22,8 +22,8 @@ public class ServerRunner {
     public static void main(String[] args) {
 
         LOGGER.debug("checking passed parameters, count {} ", args.length);
-        if(args.length != 4) {
-            LOGGER.error("Please add required arguments, RM Name, RM Multicast IP, UDP Multicast Port, Frontend Host");
+        if(args.length != 6) {
+            LOGGER.error("Please add required arguments, RM Name, RM Multicast IP, UDP Multicast Port, Frontend Host, RMI Registry Host, RMI Regostry Port");
             return;
         }
 
@@ -46,6 +46,16 @@ public class ServerRunner {
 
         LOGGER.debug("checking passed Frontend Host to be valid {}", args[3]);
         Configuration.FRONT_END_HOST = args[3];
+
+        LOGGER.debug("checking passed RMI Registry Host to be in valid {}", args[4]);
+        Configuration.RMI_REGISTRY_HOST = args[4];
+
+        LOGGER.debug("checking passed RMI Server port to be in valid {}", args[5]);
+        try {
+            Configuration.RMI_PORT = Integer.parseInt(args[5].trim());
+        } catch(NumberFormatException nfex) {
+            LOGGER.error("Passed RMI Server port is invalid {}, default will be used {}", args[3], Configuration.RMI_PORT);
+        }
 
         LOGGER.info("Starting UDP Server .....");
         Thread udpServerThread = new Thread(new UDPServer());

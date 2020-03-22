@@ -1,16 +1,16 @@
 package ca.concordia.ginacody.comp6231.demsha.replicamgr.processor;
 
+import ca.concordia.ginacody.comp6231.demsha.common.services.EventManagementService;
 import ca.concordia.ginacody.comp6231.demsha.replicamgr.config.Configuration;
 import ca.concordia.ginacody.comp6231.demsha.replicamgr.vo.Request;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
-import java.net.DatagramPacket;
-import java.net.DatagramSocket;
-import java.net.InetAddress;
-import java.net.MulticastSocket;
+import java.net.*;
+import java.rmi.Naming;
+import java.rmi.NotBoundException;
+import java.rmi.RemoteException;
 import java.util.Optional;
 import java.util.StringTokenizer;
 
@@ -63,6 +63,25 @@ public class ResponseProcessor extends Thread {
 
         if ("sequencer".equals(request.getPrameterValue(Request.SOURCE)) && !request.isSystem) {
             //TODO Reply to FE
+
+
+            String replyMessage = null;
+            if("login".equals(request.getPrameterValue(Request.COMMAND))) {
+                String userName = request.getPrameterValue("username");
+                String location = userName.substring(0, 3);
+                String registryURL = String.format("rmi://%s:%s/%s%s", Configuration.RMI_REGISTRY_HOST, Configuration.RMI_PORT, Configuration.SERVER_NAME, location);
+                try {
+                    EventManagementService eventManagementService = (EventManagementService) Naming.lookup(registryURL);
+                    replyMessage = eventManagementService.login(userName);
+                } catch (NotBoundException e) {
+                    e.printStackTrace();
+                } catch (MalformedURLException e) {
+                    e.printStackTrace();
+                } catch (RemoteException e) {
+                    e.printStackTrace();
+                }
+            }
+
             DatagramSocket aSocket = null;
             try {
                 aSocket = new DatagramSocket();
@@ -71,6 +90,8 @@ public class ResponseProcessor extends Thread {
                 LOGGER.info(String.format("Sending the reply to FE on port %s", port));
                 this.message = this.message.replace("source=sequencer", String.format("source=%s", Configuration.SERVER_NAME));
                 this.message = this.message.concat(String.format("&result=ok"));
+                this.message = this.message.concat(String.format("&message=%s", replyMessage));
+
                 DatagramPacket reply = new DatagramPacket(this.message.getBytes(), this.message.getBytes().length, inetAddress, Integer.parseInt(port));
                 aSocket.send(reply);
             } catch (IOException ioex) {
