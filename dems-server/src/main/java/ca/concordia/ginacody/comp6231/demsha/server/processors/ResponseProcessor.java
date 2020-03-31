@@ -47,7 +47,9 @@ public class ResponseProcessor extends Thread {
 
     @Override
     public void run()  {
-        String  commandString = new String(this.getRequest().getData()).substring(0, this.getRequest().getData().length);
+        //String  commandString = new String(this.getRequest().getData()).substring(0, this.getRequest().getData().length);
+        String  commandString = new String(this.getRequest().getData()).substring(0, this.getRequest().getLength());
+
         StringTokenizer stringTokenizer = new StringTokenizer(commandString, ":");
         String remoteServer = stringTokenizer.nextToken();
         String command = stringTokenizer.nextToken();

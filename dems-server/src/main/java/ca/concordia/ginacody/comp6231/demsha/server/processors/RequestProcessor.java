@@ -50,16 +50,16 @@ public class RequestProcessor extends Thread {
         DatagramSocket aSocket = null;
         try {
             aSocket = new DatagramSocket();
-            aSocket.setSoTimeout(10000);
+            aSocket.setSoTimeout(3000);
             byte[] m = this.requestMessage.getBytes();
             InetAddress aHost = InetAddress.getByName("127.0.0.1");
             int serverPort = Configuration.UDP_SERVERS_PORTS.get(this.remoteLocation);
             DatagramPacket request = new DatagramPacket(m, m.length, aHost, serverPort);
             aSocket.send(request);
-            byte[] buffer = new byte[2500];
+            byte[] buffer = new byte[1024];
             DatagramPacket reply = new DatagramPacket(buffer, buffer.length);
             aSocket.receive(reply);
-            replyMessage = new String(reply.getData()).substring(0, reply.getData().length).replaceAll("[^\\x00-\\x7F]", "").replaceAll("[\\p{Cntrl}&&[^\r\n\t]]", "").replaceAll("\\p{C}", "");
+            replyMessage = new String(reply.getData()).substring(0, reply.getLength());
         } catch (SocketException e) {
             this.replyMessage = String.format("Communication Error: Error while communicating with remote server %s, error is $s%s", this.remoteLocation, e.getMessage(), System.lineSeparator());
             LOGGER.error("{}", e.getMessage());
