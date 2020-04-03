@@ -50,8 +50,8 @@ public class RMIInitializer implements Runnable {
         }
         catch (RemoteException e) {
             LOGGER.error("RMI registry cannot be located at {} {}", Configuration.RMI_REGISTRY_HOST, Configuration.RMI_PORT);
-            //Registry registry = LocateRegistry.createRegistry(Configuration.RMI_PORT);
-            //LOGGER.info("RMI registry created at port {}", Configuration.RMI_PORT);
+            Registry registry = LocateRegistry.createRegistry(Configuration.RMI_PORT);
+            LOGGER.info("RMI registry created at port {}", Configuration.RMI_PORT);
         }
     }
 }
