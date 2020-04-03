@@ -43,7 +43,7 @@ public class UDPServer implements Runnable {
         try {
             aSocket = new DatagramSocket(Configuration.UDP_PORT);
             LOGGER.info("UDP Server started on port {}, Listening ......", Configuration.UDP_PORT);
-            byte[] buffer = new byte[1000];
+            byte[] buffer = new byte[1024];
             while (this.isStarted()) {
                 DatagramPacket request = new DatagramPacket(buffer, buffer.length);
                 aSocket.receive(request);

@@ -24,7 +24,7 @@ public class ServerRunner {
 
         LOGGER.debug("checking passed parameters, count {} ", args.length);
         if(args.length != 5 ) {
-            LOGGER.error("Please add required arguments, Sever Location, Replica Manager Name, RMI Port, UDP Port");
+            LOGGER.error("Please add required arguments, Sever Location, Replica Manager Name, RMI Host, RMI Port, UDP Port");
             return;
         }
 

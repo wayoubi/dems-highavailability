@@ -23,7 +23,7 @@ public class ServerRunner {
 
         LOGGER.debug("checking passed parameters, count {} ", args.length);
         if(args.length != 6) {
-            LOGGER.error("Please add required arguments, RM Name, RM Multicast IP, UDP Multicast Port, Frontend Host, RMI Registry Host, RMI Regostry Port");
+            LOGGER.error("Please add required arguments, RM Name, RM Multicast IP, UDP Multicast Port, Frontend Host, RMI Registry Host, RMI Registry Port");
             return;
         }
 

@@ -66,7 +66,7 @@ Run the ORBD
 
 $ ./runorbd.sh 
 
-# use run.cmd is you're on Windows
+# use run.bat if you're on Windows
 $ runorbd.bat
 
 #You can also run the ORBD from the Java bin folder
@@ -88,7 +88,7 @@ Run the Frontend
 cd frontend
 ./run.sh localhost 1050 localhost 8080 224.0.0.110 4446
 
-# use run.cmd is you're on Windows
+# use run.bat if you're on Windows
 cd frontend
 run.bat localhost 1050 localhost 8080 224.0.0.110 4446
 ```
@@ -104,7 +104,7 @@ Run the Sequencer
 cd sequencer
 ./run.sh 8080 224.0.0.110 4446
 
-# use run.cmd is you're on Windows
+# use run.bat if you're on Windows
 cd sequencer
 run.bat 8080 224.0.0.110 4446
 
@@ -117,14 +117,35 @@ Run the Replica Manager
 # 1 Replica Manager Name, default RM$ where $ is 1,2,3 and so on
 # 2 Mutlicast IP, default 224.0.0.110
 # 3 Multicast Port, default 4443 
+# 4 Frontend Host, default localhost
+# 5 RMI Registry Host, default localhost
+# 6 RMI Registry Port, default 1099
 
 cd replica-manager
-./run.sh RM1 224.0.0.110 4446 localhost
+./run.sh RM1 224.0.0.110 4446 localhost localhost 1099
 
-# use run.cmd is you're on Windows
+# use run.bat if you're on Windows
 cd replica-manager
-run.bat RM1 224.0.0.110 4446 localhost
+run.bat RM1 224.0.0.110 4446 localhost localhost 1099
 
+```
+
+Run the DMES Server
+```sh 
+# While you are in the dems-highavailability folder
+# Required parameters in order
+# Sever Location, default MTL 
+# Replica Manager Name, default RM1
+# RMI Host, default localhost 
+# RMI Port, default 1099
+# UDP Port, default 8080
+
+cd dems-server
+./run.sh MTL RM1 localhost 1099 8080 
+
+# use run.bat if you're on Windows
+cd client
+run.bat
 ```
 
 Run the DEMS Client
@@ -134,15 +155,10 @@ Run the DEMS Client
 cd client
 ./run.sh
 
-# use run.cmd is you're on Windows
+# use run.bat if you're on Windows
 cd client
 run.bat
 
-```
-
-Run the DMES Server
-```sh 
-# //TODO incomplete yet
 ```
 
 ## Introduction
