@@ -9,7 +9,7 @@ import ca.concordia.ginacody.comp6231.demsha.server.vo.EventVO;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
+import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
 
 public class EventManagementBusinessFacade implements EventManagementService {
@@ -67,6 +67,11 @@ public class EventManagementBusinessFacade implements EventManagementService {
         EventVO eventVO = new EventVO(eventID, eventType);
         BookingDAO bookingDAO = new BookingDAO();
         return bookingDAO.removeBooking(customerID, eventVO);
+    }
+
+    @Override
+    public String swapEvent(String customerID, String eventID, String eventType, String oldEventID, String oldEventType) {
+        throw new NotImplementedException();
     }
 
     /**

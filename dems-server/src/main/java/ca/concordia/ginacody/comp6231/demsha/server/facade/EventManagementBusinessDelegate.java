@@ -250,20 +250,12 @@ public class EventManagementBusinessDelegate implements EventManagementService {
         }
     }
 
-    /**
-     *
-     * @param customerID
-     * @param eventID
-     * @param eventType
-     * @param oldEventID
-     * @param oldEventType
-     * @return
-     */
-    public String swapEvent(String customerID, String eventID, EventType eventType, String oldEventID, EventType oldEventType) {
+    @Override
+    public String swapEvent(String customerID, String eventID, String eventType, String oldEventID, String oldEventType) {
         String trxNumber = customerID  + UUID.randomUUID().toString();
-        String result = this.bookEvent(trxNumber, eventID, eventType);
+        String result = this.bookEvent(trxNumber, eventID, EventType.valueOf(eventType));
         if(result.startsWith("Success:")) {
-            result = this.cancelEvent(customerID, oldEventID, oldEventType);
+            result = this.cancelEvent(customerID, oldEventID, EventType.valueOf(oldEventType));
             if(result.startsWith("Success:")) {
                 String temp = null;
                 do {
@@ -275,7 +267,7 @@ public class EventManagementBusinessDelegate implements EventManagementService {
             } else {
                 String temp = null;
                 do {
-                    temp = this.cancelEvent(trxNumber, eventID, eventType);
+                    temp = this.cancelEvent(trxNumber, eventID, EventType.valueOf(eventType));
                 } while(temp.startsWith("Communication Error:"));
                 result = result.replace(trxNumber, customerID);
             }

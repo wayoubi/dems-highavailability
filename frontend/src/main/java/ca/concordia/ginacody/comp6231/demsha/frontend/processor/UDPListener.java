@@ -59,7 +59,7 @@ public class UDPListener implements Runnable {
                 String message = new String(messagePacket.getData()).substring(0, messagePacket.getLength());
                 Date timestamp = new Date();
                 int responseTime = (int) (timestamp.getTime() - this.requestProcessor.timestamp.getTime() );
-                LOGGER.info(String.format("New message received from RM %s in %s miliseconds", message, responseTime));
+                LOGGER.info(String.format("New message received from RM %s in %s milliseconds", message, responseTime));
                 aSocket.setSoTimeout(responseTime*2);
                 this.requestProcessor.messagesBuffer.add(message);
                 counter++;

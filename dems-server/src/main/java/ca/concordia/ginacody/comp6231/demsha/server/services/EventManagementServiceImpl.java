@@ -72,4 +72,10 @@ public class EventManagementServiceImpl extends UnicastRemoteObject implements E
         EventManagementBusinessDelegate eventManagementBusinessDelegate = new EventManagementBusinessDelegate();
         return eventManagementBusinessDelegate.cancelEvent(customerID, eventID, eventType);
     }
+
+    @Override
+    public String swapEvent(String customerID, String eventID, String eventType, String oldEventID, String oldEventType) {
+        EventManagementBusinessDelegate eventManagementBusinessDelegate = new EventManagementBusinessDelegate();
+        return eventManagementBusinessDelegate.swapEvent(customerID, eventID, eventType, oldEventID, oldEventType);
+    }
 }
