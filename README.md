@@ -141,11 +141,11 @@ Run the DMES Server
 # UDP Port, default 8080
 
 cd dems-server
-./run.sh MTL RM1 localhost 1099 8080 
+./run.sh MTL RM1 localhost 1099 7070 
 
 # use run.bat if you're on Windows
-cd client
-run.bat
+cd dems-server
+run.bat MTL RM1 localhost 1099 7070 
 ```
 
 Run the DEMS Client

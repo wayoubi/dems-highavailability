@@ -251,11 +251,11 @@ public class EventManagementBusinessDelegate implements EventManagementService {
     }
 
     @Override
-    public String swapEvent(String customerID, String eventID, String eventType, String oldEventID, String oldEventType) {
+    public String swapEvent(String customerID, String eventID, EventType eventType, String oldEventID, EventType oldEventType) {
         String trxNumber = customerID  + UUID.randomUUID().toString();
-        String result = this.bookEvent(trxNumber, eventID, EventType.valueOf(eventType));
+        String result = this.bookEvent(trxNumber, eventID, eventType);
         if(result.startsWith("Success:")) {
-            result = this.cancelEvent(customerID, oldEventID, EventType.valueOf(oldEventType));
+            result = this.cancelEvent(customerID, oldEventID, oldEventType);
             if(result.startsWith("Success:")) {
                 String temp = null;
                 do {
@@ -267,7 +267,7 @@ public class EventManagementBusinessDelegate implements EventManagementService {
             } else {
                 String temp = null;
                 do {
-                    temp = this.cancelEvent(trxNumber, eventID, EventType.valueOf(eventType));
+                    temp = this.cancelEvent(trxNumber, eventID, eventType);
                 } while(temp.startsWith("Communication Error:"));
                 result = result.replace(trxNumber, customerID);
             }

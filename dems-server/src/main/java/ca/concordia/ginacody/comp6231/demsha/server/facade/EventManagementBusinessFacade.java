@@ -70,7 +70,7 @@ public class EventManagementBusinessFacade implements EventManagementService {
     }
 
     @Override
-    public String swapEvent(String customerID, String eventID, String eventType, String oldEventID, String oldEventType) {
+    public String swapEvent(String customerID, String eventID, EventType eventType, String oldEventID, EventType oldEventType) {
         throw new NotImplementedException();
     }
 

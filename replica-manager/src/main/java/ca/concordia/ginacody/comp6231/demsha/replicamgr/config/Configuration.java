@@ -1,5 +1,7 @@
 package ca.concordia.ginacody.comp6231.demsha.replicamgr.config;
 
+import ca.concordia.ginacody.comp6231.demsha.common.util.MessageParser;
+
 public class Configuration {
 
     /**
@@ -36,5 +38,10 @@ public class Configuration {
      * default 1099
      */
     public static int RMI_PORT = 1099;
+
+    /**
+     * starts at 0
+     */
+    public static int MESSAGES_SEQUENCE = 0;
 
 }

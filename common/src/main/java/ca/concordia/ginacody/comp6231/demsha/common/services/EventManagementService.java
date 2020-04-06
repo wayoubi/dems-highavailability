@@ -89,5 +89,5 @@ public interface EventManagementService extends java.rmi.Remote {
      * @param oldEventType
      * @return
      */
-    public String swapEvent(String customerID, String eventID, String eventType, String oldEventID, String oldEventType);
+    public String swapEvent(String customerID, String eventID, EventType eventType, String oldEventID, EventType oldEventType) throws EventManagementServiceException, RemoteException;;
 }

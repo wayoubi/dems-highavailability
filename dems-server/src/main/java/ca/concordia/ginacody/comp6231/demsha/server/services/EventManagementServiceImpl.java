@@ -74,7 +74,7 @@ public class EventManagementServiceImpl extends UnicastRemoteObject implements E
     }
 
     @Override
-    public String swapEvent(String customerID, String eventID, String eventType, String oldEventID, String oldEventType) {
+    public String swapEvent(String customerID, String eventID, EventType eventType, String oldEventID, EventType oldEventType) {
         EventManagementBusinessDelegate eventManagementBusinessDelegate = new EventManagementBusinessDelegate();
         return eventManagementBusinessDelegate.swapEvent(customerID, eventID, eventType, oldEventID, oldEventType);
     }

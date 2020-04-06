@@ -28,6 +28,8 @@ public class Request {
     public static final String FRONT_END_PORT= "feport";
     public static final String SEQUENCE= "sequence";
     public static final String SOURCE= "source";
+    public static final String CURRENT_SEQUENCE= "currentSequence";
+    public static final String RECEIVED_SEQUENCE= "receivedSequence";
 
 
     /**
@@ -43,7 +45,7 @@ public class Request {
     /**
      *
      */
-    private String received;
+    public final String received;
 
     /**
      *
@@ -54,6 +56,16 @@ public class Request {
      *
      */
     public int sequence;
+
+    /**
+     *
+     */
+    public boolean processed;
+
+    /**
+     *
+     */
+    public String response;
 
     /**
      *
