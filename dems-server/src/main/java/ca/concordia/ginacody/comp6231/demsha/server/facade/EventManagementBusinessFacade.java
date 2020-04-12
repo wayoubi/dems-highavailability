@@ -20,7 +20,7 @@ public class EventManagementBusinessFacade implements EventManagementService {
     public String login(String userName) throws EventManagementServiceException {
         LOGGER.info("User {} Logged in", userName);
         //return String.format("User %s logged in successfully, session-id %s", userName, randomUUID().toString());
-        return String.format("User %s logged in successfully", userName);
+        return String.format("Success: User %s logged in successfully", userName);
     }
 
     @Override
