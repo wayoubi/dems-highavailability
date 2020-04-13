@@ -48,11 +48,11 @@ public class ServerRunner {
             LOGGER.error("Passed UDP Multicast Port is invalid {}, default will be used {}", args[2].trim(), Configuration.MULTICAST_PORT);
         }
 
-        LOGGER.debug("checking passed Starting Sequence to be valid {}", args[4]);
+        LOGGER.debug("checking passed Starting Sequence to be valid {}", args[3]);
         try {
-            Configuration.MESSAGE_SEQUENCE = Integer.parseInt(args[4]);
+            Configuration.MESSAGE_SEQUENCE = Integer.parseInt(args[3]);
         } catch(NumberFormatException nfex) {
-            LOGGER.error("Passed Starting Sequence is invalid {}, default will be used {}", args[4].trim(), Configuration.UDP_PORT);
+            LOGGER.error("Passed Starting Sequence is invalid {}, default will be used {}", args[3].trim(), Configuration.UDP_PORT);
         }
 
         LOGGER.info("Starting UDP Server .....");
