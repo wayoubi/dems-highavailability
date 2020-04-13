@@ -102,7 +102,6 @@ public class ResponseProcessor extends Thread {
             if(messageSequence == Configuration.MESSAGES_SEQUENCE+1 && !HoldBackQueue.getInstance().getQueue().containsKey(messageSequence)) {
                 //deliver
                 PlayBook.getInstance().addRequest(messageSequence, request);
-                Configuration.MESSAGES_SEQUENCE++;
                 this.processBusinessRequests(request);
                 //Multicast the Message to all Replicas if received from the sequencer
                 if("sequencer".equals(request.getPrameterValue(Request.SOURCE))){
@@ -134,6 +133,8 @@ public class ResponseProcessor extends Thread {
      * @return
      */
     private void processBusinessRequests(Request request) {
+        Configuration.MESSAGES_SEQUENCE = Integer.valueOf(request.getPrameterValue(Request.SEQUENCE));
+
         //TODO Technical dept in this method
         String replyMessage = null;
 
@@ -327,7 +328,6 @@ public class ResponseProcessor extends Thread {
             LOGGER.info(String.format("Message with Sequence %s will be removed from HoldBackQueue", integer));
             HoldBackQueue.getInstance().getQueue().remove(integer);
             processBusinessRequests(request1);
-            Configuration.MESSAGES_SEQUENCE = integer;
             return request1;
         });
     }
