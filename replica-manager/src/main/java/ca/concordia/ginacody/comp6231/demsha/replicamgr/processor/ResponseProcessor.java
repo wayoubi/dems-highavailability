@@ -112,7 +112,7 @@ public class ResponseProcessor extends Thread {
                     multicastDispatcher.run();
                 }
                 this.processBusinessRequests(request);
-            } else if(messageSequence > Configuration.MESSAGES_SEQUENCE+1) {
+            } else if(messageSequence > Configuration.MESSAGES_SEQUENCE+1 && !HoldBackQueue.getInstance().getQueue().containsKey(messageSequence)) {
                 LOGGER.info(String.format("Sequence mismatch, request will be added to the HoldBackQueue Msg Seq:%s, Current Seq: %s", messageSequence, Configuration.MESSAGES_SEQUENCE));
                 //put current message in holdbackqueue
                 HoldBackQueue.getInstance().addRequest(Integer.valueOf(messageSequence), request);
