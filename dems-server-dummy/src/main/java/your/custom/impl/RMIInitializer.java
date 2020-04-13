@@ -72,6 +72,7 @@ public class RMIInitializer implements Runnable {
         try {
             modeStr = (br.readLine()).trim();
             mode = Integer.parseInt(modeStr);
+            Config.MODE = mode;
         } catch (IOException e) {
             System.out.println("Default Mode will be used, Normal Mode");
         }
