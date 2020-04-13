@@ -48,7 +48,7 @@ public class HoldBackQueue {
      * @param request
      */
     public void addRequest(int sequence, Request request) {
-        this.linkedHashMap.put(Integer.valueOf(sequence), request);
+        this.linkedHashMap.computeIfAbsent(sequence, integer -> request);
     }
 
     /**

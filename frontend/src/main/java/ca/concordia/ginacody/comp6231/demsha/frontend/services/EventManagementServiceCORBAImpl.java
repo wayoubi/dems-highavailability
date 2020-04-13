@@ -1,5 +1,6 @@
 package ca.concordia.ginacody.comp6231.demsha.frontend.services;
 
+import ca.concordia.ginacody.comp6231.demsha.common.enums.EventType;
 import ca.concordia.ginacody.comp6231.demsha.common.util.MessageParser;
 import ca.concordia.ginacody.comp6231.demsha.frontend.processor.RequestProcessor;
 
