@@ -66,6 +66,16 @@ public class RMIInitializer implements Runnable {
             serverLocation = "MTL";
         }
 
+        System.out.println("Enter Server Mode [1] Normal [2] Fault");
+        String modeStr;
+        int mode = Config.NORMAL_MODE;
+        try {
+            modeStr = (br.readLine()).trim();
+            mode = Integer.parseInt(modeStr);
+        } catch (IOException e) {
+            System.out.println("Default Mode will be used, Normal Mode");
+        }
+
         try {
             startRegistry(portNumber);
             EventManagementServiceImpl exportedObj = new EventManagementServiceImpl();
