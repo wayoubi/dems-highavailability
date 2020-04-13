@@ -103,6 +103,7 @@ public class ResponseProcessor extends Thread {
                 //deliver
                 PlayBook.getInstance().addRequest(messageSequence, request);
                 Configuration.MESSAGES_SEQUENCE++;
+                this.processBusinessRequests(request);
                 //Multicast the Message to all Replicas if received from the sequencer
                 if("sequencer".equals(request.getPrameterValue(Request.SOURCE))){
                     //String temp = this.message.concat(String.format("&%s=%s", Request.SOURCE, Configuration.SERVER_NAME));
@@ -111,7 +112,6 @@ public class ResponseProcessor extends Thread {
                     MulticastDispatcher multicastDispatcher = new MulticastDispatcher(temp);
                     multicastDispatcher.run();
                 }
-                this.processBusinessRequests(request);
             } else if(messageSequence > Configuration.MESSAGES_SEQUENCE+1 && !HoldBackQueue.getInstance().getQueue().containsKey(messageSequence)) {
                 LOGGER.info(String.format("Sequence mismatch, request will be added to the HoldBackQueue Msg Seq:%s, Current Seq: %s", messageSequence, Configuration.MESSAGES_SEQUENCE));
                 //put current message in holdbackqueue
@@ -327,6 +327,7 @@ public class ResponseProcessor extends Thread {
             LOGGER.info(String.format("Message with Sequence %s will be removed from HoldBackQueue", integer));
             HoldBackQueue.getInstance().getQueue().remove(integer);
             processBusinessRequests(request1);
+            Configuration.MESSAGES_SEQUENCE = integer;
             return request1;
         });
     }
