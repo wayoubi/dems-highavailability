@@ -22,12 +22,12 @@ public class ServerRunner {
     public static void main(String[] args) {
 
         LOGGER.debug("checking passed parameters, count {} ", args.length);
-        if(args.length != 3 ) {
-            LOGGER.error("Please add required arguments, UDP Listener Port, RM Multicast IP, UDP Multicast Port");
+        if(args.length != 4 ) {
+            LOGGER.error("Please add required arguments, UDP Listener Port, RM Multicast IP, UDP Multicast Port, Starting Sequence");
             return;
         }
 
-        LOGGER.debug("checking passed UDP Listener port to be in valid {}", args[0]);
+        LOGGER.debug("checking passed UDP Listener port to be valid {}", args[0]);
         try {
             Configuration.UDP_PORT = Integer.parseInt(args[0]);
         } catch(NumberFormatException nfex) {
@@ -46,6 +46,13 @@ public class ServerRunner {
             Configuration.MULTICAST_PORT = Integer.parseInt(args[2]);
         } catch(NumberFormatException nfex) {
             LOGGER.error("Passed UDP Multicast Port is invalid {}, default will be used {}", args[2].trim(), Configuration.MULTICAST_PORT);
+        }
+
+        LOGGER.debug("checking passed Starting Sequence to be valid {}", args[4]);
+        try {
+            Configuration.MESSAGE_SEQUENCE = Integer.parseInt(args[4]);
+        } catch(NumberFormatException nfex) {
+            LOGGER.error("Passed Starting Sequence is invalid {}, default will be used {}", args[4].trim(), Configuration.UDP_PORT);
         }
 
         LOGGER.info("Starting UDP Server .....");

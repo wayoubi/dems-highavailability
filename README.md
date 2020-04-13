@@ -100,13 +100,14 @@ Run the Sequencer
 # 1 UDP Unicast Listening Port, default 8080 
 # 2 Mutlicast IP, default 224.0.0.110
 # 3 Multicast Port, default 4443
+# 4 Starting Sequence default 0
 
 cd sequencer
-./run.sh 8080 224.0.0.110 4446
+./run.sh 8080 224.0.0.110 4446 0
 
 # use run.bat if you're on Windows
 cd sequencer
-run.bat 8080 224.0.0.110 4446
+run.bat 8080 224.0.0.110 4446 0
 
 ```
 
