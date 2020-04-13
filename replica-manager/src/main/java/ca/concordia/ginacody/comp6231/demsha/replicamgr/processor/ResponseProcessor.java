@@ -99,7 +99,7 @@ public class ResponseProcessor extends Thread {
     private void handleBusinessRequest(Request request) {
         synchronized (mutex) {
             int messageSequence = Integer.parseInt(request.getPrameterValue(Request.SEQUENCE));
-            if(messageSequence == Configuration.MESSAGES_SEQUENCE+1) {
+            if(messageSequence == Configuration.MESSAGES_SEQUENCE+1 && !HoldBackQueue.getInstance().getQueue().containsKey(messageSequence)) {
                 //deliver
                 PlayBook.getInstance().addRequest(messageSequence, request);
                 Configuration.MESSAGES_SEQUENCE++;
