@@ -186,9 +186,9 @@ public class BookingDAO {
                 eventVOS.add(eventVO);
                 return eventVOS;
             });
-            Database.getInstance().getUserRecords().computeIfAbsent(trxNumber.substring(0,8), s -> {
-                return new ArrayList<>();
-            }).add(eventVO);
+//            Database.getInstance().getUserRecords().computeIfAbsent(trxNumber.substring(0,8), s -> {
+//                return new ArrayList<>();
+//            }).add(eventVO);
         });
         return stringBuilder.toString();
     }

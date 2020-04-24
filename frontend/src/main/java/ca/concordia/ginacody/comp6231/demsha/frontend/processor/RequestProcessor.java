@@ -12,6 +12,7 @@ import java.net.DatagramSocket;
 import java.net.InetAddress;
 import java.net.SocketException;
 import java.util.*;
+import java.util.concurrent.atomic.AtomicInteger;
 
 public class RequestProcessor extends Thread {
 
@@ -47,6 +48,16 @@ public class RequestProcessor extends Thread {
 
     /**
      *
+     */
+    public AtomicInteger successCounter = new AtomicInteger(0);
+
+    /**
+     *
+     */
+    public AtomicInteger errorCounter = new AtomicInteger(0);
+
+    /**
+     *
      * @param message
      */
     public RequestProcessor(String message){
@@ -62,11 +73,48 @@ public class RequestProcessor extends Thread {
      *
      */
     public void processReplies() {
+
         this.messagesBuffer.stream().forEach(message -> {
             MessageParser messageParser = new MessageParser(message);
             String source = messageParser.getPrameterValue("source");
-            this.replies.put(source, message.replace(String.format("&source=%s", source),""));
+            String temp = messageParser.getPrameterValue("message");
+            if(temp.substring(0, temp.indexOf(':')).equalsIgnoreCase("Success")) {
+                this.successCounter.set(this.successCounter.get()+1);
+            } else {
+                this.errorCounter.set(this.errorCounter.get()+1);
+            }
+            this.replies.put(source, message);
         });
+
+        LOGGER.info("successCounter [{}], errorCounter[{}]", successCounter.get(),errorCounter.get());
+
+        Iterator<String> iterator2 = this.messagesBuffer.iterator();
+        while(iterator2.hasNext()){
+            String result = iterator2.next();
+            MessageParser messageParser = new MessageParser(result);
+            String source = messageParser.getPrameterValue("source");
+            String temp = messageParser.getPrameterValue("message");
+            StringBuilder stringBuilder = new StringBuilder();
+            stringBuilder.append("command=system&problem=mismatch-response-from-RM&source=frontend");
+            if((successCounter.get()>errorCounter.get() && temp.substring(0, temp.indexOf(':')).equalsIgnoreCase("Error")) ||
+                    (errorCounter.get()>successCounter.get() && temp.substring(0, temp.indexOf(':')).equalsIgnoreCase("Success"))) {
+                Configuration.MISMATCH_RMS.computeIfPresent(source, (s, integer) -> {
+                    integer++;
+                    if(integer>=Configuration.FAIL_RM_ON_MISMATCH) {
+                        stringBuilder.append(String.format("&rm=%s", source));
+                        LOGGER.warn("Exceeding Maximum number of failures, sending notification {}", stringBuilder.toString());
+                        MulticastDispatcher multicastDispatcher = new MulticastDispatcher(stringBuilder.toString());
+                        multicastDispatcher.setName(String.format("Message MulticastDispatcher - %s", multicastDispatcher.hashCode()));
+                        multicastDispatcher.start();
+                        integer=0;
+                    }
+                    return integer;
+                });
+                Configuration.MISMATCH_RMS.computeIfAbsent(source, s -> {
+                    return new Integer(1);
+                });
+            }
+        }
     }
 
     /**

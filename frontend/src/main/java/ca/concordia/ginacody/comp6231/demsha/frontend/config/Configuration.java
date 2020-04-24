@@ -52,4 +52,13 @@ public class Configuration {
      */
     public static int MULTICAST_PORT = 4446;
 
+    /**
+     * default 3
+     */
+    public static int FAIL_RM_ON_MISMATCH = 3;
+
+    /**
+     *
+     */
+    public static HashMap<String, Integer> MISMATCH_RMS = new HashMap<>();
 }

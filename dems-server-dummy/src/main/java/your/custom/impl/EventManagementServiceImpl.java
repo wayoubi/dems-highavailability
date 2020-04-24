@@ -28,7 +28,7 @@ public class EventManagementServiceImpl extends UnicastRemoteObject implements E
 
     @Override
     public String addEvent(String eventID, EventType eventType, int bookingCapacity) throws RemoteException {
-        System.out.println(String.format("Calling addEvent %s %s %s %s", eventID, eventType, bookingCapacity));
+        System.out.println(String.format("Calling addEvent %s %s %s", eventID, eventType, bookingCapacity));
         String result = new String();
         if(Config.MODE == Config.NORMAL_MODE) {
             result = "Success: addEvent";

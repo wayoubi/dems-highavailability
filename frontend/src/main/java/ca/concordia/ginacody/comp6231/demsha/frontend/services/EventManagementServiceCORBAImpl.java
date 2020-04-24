@@ -113,9 +113,23 @@ public class EventManagementServiceCORBAImpl extends EventManagementServiceImplP
             throw new RuntimeException(e);
         }
         StringBuilder stringBuilder = new StringBuilder();
-        Optional<Map.Entry<String, Long>> result = requestProcessor.replies.values().stream().
-                collect(Collectors.groupingBy(s -> s, Collectors.counting())).entrySet().stream().max(Comparator.comparing(Map.Entry::getValue));
-        result.ifPresent(stringLongEntry -> {stringBuilder.append(stringLongEntry.getKey());});
+
+        if(requestProcessor.successCounter.get() > requestProcessor.errorCounter.get()) {
+            Optional<String> optional = requestProcessor.replies.values().stream().filter(s -> {
+                MessageParser messageParser = new MessageParser(s);
+                String temp = messageParser.getPrameterValue("message");
+                return temp.substring(0, temp.indexOf(':')).equalsIgnoreCase("Success");
+            }).findFirst();
+            stringBuilder.append(optional.get());
+        } else {
+            Optional<String> optional = requestProcessor.replies.values().stream().filter(s -> {
+                MessageParser messageParser = new MessageParser(s);
+                String temp = messageParser.getPrameterValue("message");
+                return temp.substring(0, temp.indexOf(':')).equalsIgnoreCase("Error");
+            }).findFirst();
+            stringBuilder.append(optional.get());
+        }
+
         if(stringBuilder.length()==0) {
             return "System communication error! Please try again";
         }

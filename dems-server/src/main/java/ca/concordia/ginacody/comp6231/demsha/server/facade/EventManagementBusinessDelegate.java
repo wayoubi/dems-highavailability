@@ -121,10 +121,10 @@ public class EventManagementBusinessDelegate implements EventManagementService {
         if(Configuration.SERVER_LOCATION.equals(eventLocation) && !customerID.startsWith(Configuration.SERVER_LOCATION)) {
             //check if customer registered more than 3 times in that week
             //get number of local bookings for this remote user.
-            atomicInteger.set(eventManagementBusinessFacade.getBookingCountInSameWeek(customerID,eventID,eventType));
+            atomicInteger.set(eventManagementBusinessFacade.getBookingCountInSameWeek(customerID.substring(0,8),eventID,eventType));
             if(atomicInteger.get()>=3) {
-                LOGGER.info("3 Remote events during same week are already booked for customerID {}, eventID {}, EventType {}", customerID, eventID,  eventType);
-                throw new EventManagementServiceException(String.format("Error: 3 Remote events during same week are already booked for customerID %s, eventID %s, EventType %s", customerID, eventID,  eventType));
+                LOGGER.info("3 Remote events during same week are already booked for customerID {}, eventID {}, EventType {}", customerID.substring(0,8), eventID,  eventType);
+                throw new EventManagementServiceException(String.format("Error: 3 Remote events during same week are already booked for customerID %s, eventID %s, EventType %s", customerID.substring(0,8), eventID,  eventType));
             }
         }
 
@@ -132,12 +132,12 @@ public class EventManagementBusinessDelegate implements EventManagementService {
         //check if customer registered more than 3 times in that week
         Configuration.UDP_SERVERS_PORTS.keySet().stream().forEach(location0 -> {
             if(!Configuration.SERVER_LOCATION.equals(location0)) {
-                LOGGER.info("Trying to get booking count from remote server {}, CustomerID {}, eventID{}, EventType {}", eventLocation, customerID, eventID, eventType);
-                RequestProcessor requestProcessor = new RequestProcessor(location0, String.format("%s:getBookingCount:%s:%s:%s:", Configuration.SERVER_LOCATION, customerID, eventID, eventType.getName()));
+                LOGGER.info("Trying to get booking count from remote server {}, CustomerID {}, eventID{}, EventType {}", eventLocation, customerID.substring(0,8), eventID, eventType);
+                RequestProcessor requestProcessor = new RequestProcessor(location0, String.format("%s:getBookingCount:%s:%s:%s:", Configuration.SERVER_LOCATION, customerID.substring(0,8), eventID, eventType.getName()));
                 requestProcessor.setName(String.format("Request Processor - %s", requestProcessor.hashCode()));
                 requestProcessor.start();
                 try {
-                    LOGGER.info("Waiting for getBookingCount from {}, customerID {}, eventID {}, EventType {}", location0, customerID, eventID,  eventType);
+                    LOGGER.info("Waiting for getBookingCount from {}, customerID {}, eventID {}, EventType {}", location0, customerID.substring(0,8), eventID,  eventType);
                     requestProcessor.join();
                 } catch (InterruptedException intex) {
                     requestProcessor.interrupt();
@@ -147,15 +147,15 @@ public class EventManagementBusinessDelegate implements EventManagementService {
                     int counter = Integer.parseInt(requestProcessor.getReplyMessage());
                     atomicInteger.set(atomicInteger.get()+counter);
                 } catch (NumberFormatException nfex) {
-                    LOGGER.info("Booking failed customerID {} eventID {} eventType {}. Invalid response from remote server {}, error {}", customerID, eventID,  eventType, location0, requestProcessor.getReplyMessage());
-                    throw new EventManagementServiceException(String.format("Error: Booking failed customerID %s eventID %s eventType %s, invalid response from remote server %s, error %s", customerID, eventID,  eventType, location0,  requestProcessor.getReplyMessage()));
+                    LOGGER.info("Booking failed customerID {} eventID {} eventType {}. Invalid response from remote server {}, error {}", customerID.substring(0,8), eventID,  eventType, location0, requestProcessor.getReplyMessage());
+                    throw new EventManagementServiceException(String.format("Error: Booking failed customerID %s eventID %s eventType %s, invalid response from remote server %s, error %s", customerID.substring(0,8), eventID,  eventType, location0,  requestProcessor.getReplyMessage()));
                 }
             }
         });
 
         if(atomicInteger.get()>=3) {
-            LOGGER.info("3 Remote events during same week are already booked for customerID {}, eventID {}, EventType {}", customerID, eventID,  eventType);
-            throw new EventManagementServiceException(String.format("Error: 3 Remote events during same week are already booked for customerID %s, eventID %s, EventType %s", customerID, eventID,  eventType));
+            LOGGER.info("3 Remote events during same week are already booked for customerID {}, eventID {}, EventType {}", customerID.substring(0,8), eventID,  eventType);
+            throw new EventManagementServiceException(String.format("Error: 3 Remote events during same week are already booked for customerID %s, eventID %s, EventType %s", customerID.substring(0,8), eventID,  eventType));
         }
 
         if(Configuration.SERVER_LOCATION.equals(eventLocation)) {
