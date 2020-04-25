@@ -47,7 +47,7 @@ public class EventManagementBusinessDelegate implements EventManagementService {
     @Override
     public String listEventAvailability(EventType eventType) throws EventManagementServiceException {
         LOGGER.info("Listing Available Events from local server, EventType {}", eventType);
-        StringBuilder stringBuilder = new StringBuilder();
+        StringBuilder stringBuilder = new StringBuilder("Success: ");
         try {
             stringBuilder.append(String.format("+------------------------------------+%s",System.lineSeparator()));
             stringBuilder.append(String.format("| Response from Local Server %s%s", Configuration.SERVER_LOCATION, System.lineSeparator()));
@@ -182,7 +182,7 @@ public class EventManagementBusinessDelegate implements EventManagementService {
 
         LOGGER.info("Listing Booking Schedule for customerID {}", customerID);
 
-        StringBuilder stringBuilder = new StringBuilder();
+        StringBuilder stringBuilder = new StringBuilder("Success: ");
         try {
             stringBuilder.append(String.format("+------------------------------------+%s",System.lineSeparator()));
             stringBuilder.append(String.format("| Response from Local Server %s%s", Configuration.SERVER_LOCATION, System.lineSeparator()));

@@ -102,7 +102,6 @@ public class ResponseProcessor extends Thread {
             if(messageSequence == Configuration.MESSAGES_SEQUENCE+1 && !HoldBackQueue.getInstance().getQueue().containsKey(messageSequence)) {
                 //deliver
                 PlayBook.getInstance().addRequest(messageSequence, request);
-                this.processBusinessRequests(request);
                 //Multicast the Message to all Replicas if received from the sequencer
                 if("sequencer".equals(request.getPrameterValue(Request.SOURCE))){
                     //String temp = this.message.concat(String.format("&%s=%s", Request.SOURCE, Configuration.SERVER_NAME));
@@ -111,6 +110,7 @@ public class ResponseProcessor extends Thread {
                     MulticastDispatcher multicastDispatcher = new MulticastDispatcher(temp);
                     multicastDispatcher.run();
                 }
+                this.processBusinessRequests(request);
             } else if(messageSequence > Configuration.MESSAGES_SEQUENCE+1 && !HoldBackQueue.getInstance().getQueue().containsKey(messageSequence)) {
                 LOGGER.info(String.format("Sequence mismatch, request will be added to the HoldBackQueue Msg Seq:%s, Current Seq: %s", messageSequence, Configuration.MESSAGES_SEQUENCE));
                 //put current message in holdbackqueue
@@ -311,7 +311,7 @@ public class ResponseProcessor extends Thread {
             InetAddress inetAddress = InetAddress.getByName(Configuration.FRONT_END_HOST);
             LOGGER.info(String.format("Sending the reply to FE %s on port %s", Configuration.FRONT_END_HOST, port));
             this.message = this.message.replace("source=sequencer", String.format("source=%s", Configuration.SERVER_NAME));
-            this.message = this.message.concat(String.format("&result=ok"));
+            //this.message = this.message.concat(String.format("&result=ok"));
             this.message = this.message.concat(String.format("&message=%s", replyMessage));
             DatagramPacket reply = new DatagramPacket(this.message.getBytes(), this.message.getBytes().length, inetAddress, Integer.parseInt(port));
             aSocket.send(reply);
